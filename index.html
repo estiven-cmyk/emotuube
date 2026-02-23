@@ -26,8 +26,17 @@
             cursor: pointer;
             margin-top: 10px;
         }
-        .playlist {
-            margin-top: 20px;
+        const playlists = {
+  amor: [
+    { nombre: "Perfect - Ed Sheeran", link: "https://open.spotify.com/search/Perfect%20Ed%20Sheeran" },
+    { nombre: "All of Me - John Legend", link: "https://open.spotify.com/search/All%20of%20Me%20John%20Legend" }
+  ],
+
+  tristeza: [
+    { nombre: "Fix You - Coldplay", link: "https://open.spotify.com/search/Fix%20You%20Coldplay" },
+    { nombre: "Someone Like You - Adele", link: "https://open.spotify.com/search/Someone%20Like%20You%20Adele" }
+  ]
+};
         }
     </style>
 </head>
@@ -85,10 +94,9 @@ function generatePlaylist() {
 
   let resultado = "<h3>Playlist para: " + emocion + " 🎧</h3><ul>";
 
-  canciones.forEach(cancion => {
-    resultado += "<li>" + cancion + "</li>";
-  });
-
+canciones.forEach(cancion => {
+  resultado += <li><a href="${cancion.link}" target="_blank" style="color:#1DB954;">${cancion.nombre}</a></li>;
+});
   resultado += "</ul>";
 
   document.getElementById("result").innerHTML = resultado;
@@ -99,3 +107,4 @@ function generatePlaylist() {
 </body>
 
 </html>
+
