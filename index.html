@@ -1,159 +1,89 @@
-<script>
+// Base de datos de emociones
+const emociones = {
+    feliz: [
+        {
+            nombre: "Happy - Pharrell Williams",
+            link: "https://open.spotify.com/track/60nZcImufyMA1MKQY3dcCH"
+        },
+        {
+            nombre: "Uptown Funk - Mark Ronson",
+            link: "https://open.spotify.com/track/32OlwWuMpZ6b0aN2RZOeMS"
+        }
+    ],
 
-// -------- DETECCIÓN DE EMOCIONES --------
+    triste: [
+        {
+            nombre: "Someone Like You - Adele",
+            link: "https://open.spotify.com/track/4kflIGfjdZJW4ot2ioixTB"
+        },
+        {
+            nombre: "Fix You - Coldplay",
+            link: "https://open.spotify.com/track/7LVHVU3tWfcxj5aiPFEW4Q"
+        }
+    ],
 
-function detectarEmocion(texto) {
-  texto = texto.toLowerCase();
+    amor: [
+        {
+            nombre: "Perfect - Ed Sheeran",
+            link: "https://open.spotify.com/track/0tgVpDi06FyKpA1z0VMD4v"
+        },
+        {
+            nombre: "Te Vi - Piso 21",
+            link: "https://open.spotify.com/track/3PfIrDoz19wz7qK7tYeu62"
+        }
+    ],
 
-  if (texto.includes("amor") || texto.includes("enam") || texto.includes("romant")) {
-    return "amor";
-  }
+    enojado: [
+        {
+            nombre: "Believer - Imagine Dragons",
+            link: "https://open.spotify.com/track/0pqnGHJpmpxLKifKRmU6WP"
+        }
+    ],
 
-  if (
-    texto.includes("triste") ||
-    texto.includes("mal") ||
-    texto.includes("solo") ||
-    texto.includes("deprim") ||
-    texto.includes("bajone")
-  ) {
-    return "tristeza";
-  }
-
-  if (
-    texto.includes("feliz") ||
-    texto.includes("alegr") ||
-    texto.includes("euforia") ||
-    texto.includes("emocion")
-  ) {
-    return "felicidad";
-  }
-
-  if (
-    texto.includes("enojo") ||
-    texto.includes("rabia") ||
-    texto.includes("ira") ||
-    texto.includes("furia")
-  ) {
-    return "enojo";
-  }
-
-  if (
-    texto.includes("motivad") ||
-    texto.includes("gym") ||
-    texto.includes("disciplina") ||
-    texto.includes("enfocado")
-  ) {
-    return "motivacion";
-  }
-
-  return "neutral";
-}
-
-
-// -------- PLAYLISTS CON LINKS REALES --------
-
-const playlists = {
-
-  amor: [
-    {
-      nombre: "Perfect - Ed Sheeran",
-      link: "https://open.spotify.com/track/0tgVpDi06FyKpA1z0VMD4v"
-    },
-    {
-      nombre: "All of Me - John Legend",
-      link: "https://open.spotify.com/track/3U4isOIWM3VvDubwSI3y7a"
-    }
-  ],
-
-  tristeza: [
-    {
-      nombre: "Fix You - Coldplay",
-      link: "https://open.spotify.com/track/7LVHVU3tWfcxj5aiPFEW4Q"
-    },
-    {
-      nombre: "Someone Like You - Adele",
-      link: "https://open.spotify.com/track/1zwMYTA5nlNjZxYrvBB2pV"
-    }
-  ],
-
-  felicidad: [
-    {
-      nombre: "Happy - Pharrell Williams",
-      link: "https://open.spotify.com/track/60nZcImufyMA1MKQY3dcCH"
-    },
-    {
-      nombre: "Can't Stop The Feeling - Justin Timberlake",
-      link: "https://open.spotify.com/track/6JV2JOEocMgcZxYSZelKcc"
-    }
-  ],
-
-  enojo: [
-    {
-      nombre: "Believer - Imagine Dragons",
-      link: "https://open.spotify.com/track/0pqnGHJpmpxLKifKRmU6WP"
-    },
-    {
-      nombre: "Stronger - Kanye West",
-      link: "https://open.spotify.com/track/4B0JvthVoAAuygILe3n4Bs"
-    }
-  ],
-
-  motivacion: [
-    {
-      nombre: "Eye of the Tiger - Survivor",
-      link: "https://open.spotify.com/track/2KH16WveTQWT6KOG9Rg6e2"
-    },
-    {
-      nombre: "Titanium - David Guetta",
-      link: "https://open.spotify.com/track/0lhamY0yJrM2S6WwQ6m4ZV"
-    }
-  ],
-
-  neutral: [
-    {
-      nombre: "Blinding Lights - The Weeknd",
-      link: "https://open.spotify.com/track/0VjIjW4GlUZAMYd2vXMi3b"
-    },
-    {
-      nombre: "Heat Waves - Glass Animals",
-      link: "https://open.spotify.com/track/02MWAaffLxlfxAUY7c5dvx"
-    }
-  ]
+    neutral: [
+        {
+            nombre: "Blinding Lights - The Weeknd",
+            link: "https://open.spotify.com/track/0VjIjW4GlUZAMYd2vXMi3b"
+        }
+    ]
 };
 
 
-// -------- GENERAR PLAYLIST --------
+// Función principal
+function generarPlaylist() {
+    const input = document.getElementById("emocionInput").value.toLowerCase().trim();
+    const resultado = document.getElementById("resultado");
 
-function generatePlaylist() {
+    resultado.innerHTML = "";
 
-  let texto = document.getElementById("emotion").value;
+    if (!input) {
+        resultado.innerHTML = "<p>Escribe una emoción primero.</p>";
+        return;
+    }
 
-  if (!texto) {
-    alert("Escribe cómo te sientes primero 🎧");
-    return;
-  }
+    let canciones = emociones[input];
 
-  let emocion = detectarEmocion(texto);
-  let canciones = playlists[emocion];
+    if (!canciones) {
+        resultado.innerHTML = "<p>No encontré esa emoción. Prueba: feliz, triste, amor, enojado.</p>";
+        return;
+    }
 
-  let resultado = <h3>Playlist para: ${emocion.toUpperCase()} 🎧</h3><ul>;
+    let html = <h2>Playlist para: ${input}</h2>;
 
-  canciones.forEach(cancion => {
-    resultado += `
-      <li>
-        <a href="${cancion.link}" target="_blank" style="color:#1DB954; text-decoration:none;">
-          ${cancion.nombre}
-        </a>
-      </li>
-    `;
-  });
+    canciones.forEach(cancion => {
+        html += `
+            <div style="margin:10px 0;">
+                <p>${cancion.nombre}</p>
+                <a href="${cancion.link}" target="_blank">
+                    Abrir en Spotify
+                </a>
+            </div>
+        `;
+    });
 
-  resultado += "</ul>";
-
-  document.getElementById("result").innerHTML = resultado;
+    resultado.innerHTML = html;
 }
 
-</script>
 
 
 
