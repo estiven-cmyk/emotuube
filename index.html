@@ -41,22 +41,61 @@
 
     <div class="playlist" id="result"></div>
 
-    <script>
-        function generatePlaylist() {
-            let emotion = document.getElementById("emotion").value.toLowerCase();
-            let result = document.getElementById("result");
+   <script>
 
-            if (emotion.includes("triste")) {
-                result.innerHTML = "<h3>Playlist Nostalgia 🌧️</h3><p>- Fix You<br>- Someone Like You<br>- All I Want</p>";
-            } 
-            else if (emotion.includes("feliz")) {
-                result.innerHTML = "<h3>Playlist Energía 🔥</h3><p>- Can't Stop the Feeling<br>- Happy<br>- On Top of the World</p>";
-            }
-            else {
-                result.innerHTML = "<h3>Playlist Chill 🌙</h3><p>- Sunflower<br>- Heat Waves<br>- Yellow</p>";
-            }
-        }
-    </script>
+function detectarEmocion(texto) {
+  texto = texto.toLowerCase();
+
+  if (texto.includes("amor") || texto.includes("enamorado") || texto.includes("romance")) {
+    return "amor";
+  }
+
+  if (texto.includes("triste") || texto.includes("depresión") || texto.includes("solo")) {
+    return "tristeza";
+  }
+
+  if (texto.includes("feliz") || texto.includes("alegre") || texto.includes("euforia")) {
+    return "felicidad";
+  }
+
+  if (texto.includes("enojo") || texto.includes("rabia") || texto.includes("ira")) {
+    return "enojo";
+  }
+
+  if (texto.includes("motivado") || texto.includes("gym") || texto.includes("disciplina")) {
+    return "motivacion";
+  }
+
+  return "neutral";
+}
+
+const playlists = {
+  amor: ["Perfect", "All of Me", "Until I Found You"],
+  tristeza: ["Fix You", "Someone Like You", "All I Want"],
+  felicidad: ["Happy", "Can't Stop The Feeling", "On Top Of The World"],
+  enojo: ["Believer", "Stronger", "Lose Yourself"],
+  motivacion: ["Eye of the Tiger", "POWER", "Titanium"],
+  neutral: ["Blinding Lights", "Heat Waves", "Sunflower"]
+};
+
+function generatePlaylist() {
+  let texto = document.getElementById("emotion").value;
+  let emocion = detectarEmocion(texto);
+  let canciones = playlists[emocion];
+
+  let resultado = "<h3>Playlist para: " + emocion + " 🎧</h3><ul>";
+
+  canciones.forEach(cancion => {
+    resultado += "<li>" + cancion + "</li>";
+  });
+
+  resultado += "</ul>";
+
+  document.getElementById("result").innerHTML = resultado;
+}
+
+</script>
 
 </body>
+
 </html>
