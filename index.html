@@ -1,91 +1,132 @@
-// Base de datos de emociones
-const emociones = {
-    feliz: [
-        {
-            nombre: "Happy - Pharrell Williams",
-            link: "https://open.spotify.com/track/60nZcImufyMA1MKQY3dcCH"
-        },
-        {
-            nombre: "Uptown Funk - Mark Ronson",
-            link: "https://open.spotify.com/track/32OlwWuMpZ6b0aN2RZOeMS"
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Emotuube</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #121212;
+            color: white;
+            padding: 40px;
         }
-    ],
 
-    triste: [
-        {
-            nombre: "Someone Like You - Adele",
-            link: "https://open.spotify.com/track/4kflIGfjdZJW4ot2ioixTB"
-        },
-        {
-            nombre: "Fix You - Coldplay",
-            link: "https://open.spotify.com/track/7LVHVU3tWfcxj5aiPFEW4Q"
+        input {
+            padding: 10px;
+            width: 250px;
+            border-radius: 5px;
+            border: none;
         }
-    ],
 
-    amor: [
-        {
-            nombre: "Perfect - Ed Sheeran",
-            link: "https://open.spotify.com/track/0tgVpDi06FyKpA1z0VMD4v"
-        },
-        {
-            nombre: "Te Vi - Piso 21",
-            link: "https://open.spotify.com/track/3PfIrDoz19wz7qK7tYeu62"
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #1DB954;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
         }
-    ],
 
-    enojado: [
-        {
-            nombre: "Believer - Imagine Dragons",
-            link: "https://open.spotify.com/track/0pqnGHJpmpxLKifKRmU6WP"
+        button:hover {
+            background-color: #17a74a;
         }
-    ],
 
-    neutral: [
-        {
-            nombre: "Blinding Lights - The Weeknd",
-            link: "https://open.spotify.com/track/0VjIjW4GlUZAMYd2vXMi3b"
+        #resultado {
+            margin-top: 30px;
         }
-    ]
-};
 
+        a {
+            color: #1DB954;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
 
-// Función principal
-function generarPlaylist() {
-    const input = document.getElementById("emocionInput").value.toLowerCase().trim();
-    const resultado = document.getElementById("resultado");
+    <h1>🎵 Emotuube</h1>
+    <p>Escribe tu emoción:</p>
 
-    resultado.innerHTML = "";
+    <input type="text" id="emocionInput" placeholder="Ej: feliz, triste, amor">
+    <button onclick="generarPlaylist()">Generar Playlist</button>
 
-    if (!input) {
-        resultado.innerHTML = "<p>Escribe una emoción primero.</p>";
-        return;
-    }
+    <div id="resultado"></div>
 
-    let canciones = emociones[input];
+    <script>
+        const emociones = {
+            feliz: [
+                {
+                    nombre: "Happy - Pharrell Williams",
+                    link: "https://open.spotify.com/track/60nZcImufyMA1MKQY3dcCH"
+                },
+                {
+                    nombre: "Uptown Funk - Mark Ronson",
+                    link: "https://open.spotify.com/track/32OlwWuMpZ6b0aN2RZOeMS"
+                }
+            ],
 
-    if (!canciones) {
-        resultado.innerHTML = "<p>No encontré esa emoción. Prueba: feliz, triste, amor, enojado.</p>";
-        return;
-    }
+            triste: [
+                {
+                    nombre: "Someone Like You - Adele",
+                    link: "https://open.spotify.com/track/4kflIGfjdZJW4ot2ioixTB"
+                }
+            ],
 
-    let html = <h2>Playlist para: ${input}</h2>;
+            amor: [
+                {
+                    nombre: "Perfect - Ed Sheeran",
+                    link: "https://open.spotify.com/track/0tgVpDi06FyKpA1z0VMD4v"
+                }
+            ],
 
-    canciones.forEach(cancion => {
-        html += `
-            <div style="margin:10px 0;">
-                <p>${cancion.nombre}</p>
-                <a href="${cancion.link}" target="_blank">
-                    Abrir en Spotify
-                </a>
-            </div>
-        `;
-    });
+            enojado: [
+                {
+                    nombre: "Believer - Imagine Dragons",
+                    link: "https://open.spotify.com/track/0pqnGHJpmpxLKifKRmU6WP"
+                }
+            ],
 
-    resultado.innerHTML = html;
-}
+            neutral: [
+                {
+                    nombre: "Blinding Lights - The Weeknd",
+                    link: "https://open.spotify.com/track/0VjIjW4GlUZAMYd2vXMi3b"
+                }
+            ]
+        };
 
+        function generarPlaylist() {
 
+            const input = document.getElementById("emocionInput").value.toLowerCase().trim();
+            const resultado = document.getElementById("resultado");
 
+            resultado.innerHTML = "";
 
+            if (input === "") {
+                resultado.innerHTML = "<p>Escribe una emoción primero.</p>";
+                return;
+            }
 
+            if (!emociones[input]) {
+                resultado.innerHTML = "<p>Emoción no encontrada. Prueba: feliz, triste, amor, enojado.</p>";
+                return;
+            }
 
+            let canciones = emociones[input];
+
+            let html = "<h2>Playlist para: " + input + "</h2>";
+
+            for (let i = 0; i < canciones.length; i++) {
+                html += "<div style='margin:15px 0;'>";
+                html += "<p>" + canciones[i].nombre + "</p>";
+                html += "<a href='" + canciones[i].link + "' target='_blank'>Abrir en Spotify</a>";
+                html += "</div>";
+            }
+
+            resultado.innerHTML = html;
+        }
+    </script>
+
+</body>
+</html>
